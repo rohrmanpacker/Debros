@@ -84,13 +84,29 @@ void loop() {
 		Tank.setRightMotorPWM(0);
 }
 
+float mod2pi(float dividend){
+	while(dividend >= 2*pi){
+		dividend -= 2*pi;
+	}
+	return dividend;
+}
+
 //Method to turn to an angle
 void turntoAngle(float theta_desired, float tol) {
 	Enes100.updateLocation();
-	while ((Enes100.location.theta <= (theta_desired - tol)) || (Enes100.location.theta >= (theta_desired + tol))) {
-		Tank.setLeftMotorPWM(255);
-		Tank.setRightMotorPWM(-255);
-		Enes100.updateLocation();
+	
+	if(mod2pi(2*pi+Enes100.location.theta-theta_desired)<mod2pi(2*pi-Enes100.location.theta+theta_desired)){
+		while ((Enes100.location.theta <= (theta_desired - tol)) || (Enes100.location.theta >= (theta_desired + tol))) {//turn CCW
+			Tank.setLeftMotorPWM(255);
+			Tank.setRightMotorPWM(-255);
+			Enes100.updateLocation();
+		}
+	}else{
+		while ((Enes100.location.theta <= (theta_desired - tol)) || (Enes100.location.theta >= (theta_desired + tol))) { //turn CW
+			Tank.setLeftMotorPWM(-255);
+			Tank.setRightMotorPWM(255);
+			Enes100.updateLocation();
+		}
 	}
 	Tank.setLeftMotorPWM(0);
 	Tank.setRightMotorPWM(0);
@@ -117,4 +133,3 @@ double calculateDistance() {
 	double sqy = (destinationY - Enes100.location.y)*(destinationY - Enes100.location.y);
 	return sqrt(sqx+sqy);
 }
-	
