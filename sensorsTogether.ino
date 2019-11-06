@@ -24,7 +24,7 @@ void setup() {
 }
 
 int pos = 0;
-int change = 1;
+int change = 2;
 
 void loop() {
   // put your main code here, to run repeatedly:
@@ -32,13 +32,13 @@ void loop() {
   //servo
   myservo.write(pos);
   pos+=change;
-  if(pos <=   0){change =  1;}
-  if(pos >= 180){change = -1;}
+  if(pos <=   0){change *=-1;}
+  if(pos >= 180){change *=-1;}
   
 
   //load cell
   long reading = scale.get_units();
-  float weight = (2.19 * .001 * reading);
+  float weight = (2.19 * .001 * reading);  
 
   //conductivity
   volt = analogRead(1);
@@ -52,7 +52,7 @@ void loop() {
   delay(5);
   
   //print shit
-  //Serial.print(" Position:\t");Serial.print(pos);
+  Serial.print("position:\t");Serial.print(pos);Serial.print(" ");
   Serial.print("reading:\t");Serial.print(reading);Serial.print(" weight:\t");Serial.print(weight);Serial.print(" Conductivity:\t");Serial.print(volt);Serial.print(" Material:\t");Serial.print(material);
   Serial.println();
   
