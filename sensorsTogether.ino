@@ -14,7 +14,7 @@ HX711 scale;
 int volt;
 String material;
 
-int pos = 120;
+int pos = 135;
 int change = -2;
 
 void setup() {
@@ -35,15 +35,6 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
 
-  //servo
-  myservo1.write(pos);
-  myservo2.write(pos);
-  
-  pos+=change;
-  if(pos <= 0){change *=-1;}
-  if(pos >= 120){change *=-1;}
-  
-
   //load cell
   long reading = scale.get_units();
   float weight = (2.19 * .001 * reading);  
@@ -51,15 +42,23 @@ void loop() {
   //conductivity
   volt = analogRead(1);
   material = "none";
-  if(weight >20){
+  if(weight >20){ //if debris is collected
     if(volt<512){
       material = "metal";
     }else {
       material = "plastic";
     }
+  }else{ //if debris isn't collected
+    //servo
+    myservo1.write(pos);
+    myservo2.write(pos);
+  
+    pos+=change;
+    if(pos <= 0){change *=-1;}
+    if(pos >= 135){change *=-1;}
+  
   }
   
-
   //delay
   delay(5);
   
