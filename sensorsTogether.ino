@@ -14,8 +14,8 @@ HX711 scale;
 int volt;
 String material;
 
-int pos = 0;
-int change = 2;
+int pos = 120;
+int change = -2;
 
 void setup() {
   Serial.begin(9600);
@@ -41,27 +41,34 @@ void loop() {
   
   pos+=change;
   if(pos <= 0){change *=-1;}
-  if(pos >= 180){change *=-1;}
+  if(pos >= 120){change *=-1;}
   
 
   //load cell
   long reading = scale.get_units();
   float weight = (2.19 * .001 * reading);  
-
+  
   //conductivity
   volt = analogRead(1);
-  if(volt<512){
-    material = "metal";
-  }else {
-    material = "plastic";
+  material = "none";
+  if(weight >20){
+    if(volt<512){
+      material = "metal";
+    }else {
+      material = "plastic";
+    }
   }
+  
 
   //delay
   delay(5);
   
   //print shit
-  Serial.print("position:\t");Serial.print(pos);Serial.print(" ");
-  Serial.print("reading:\t");Serial.print(reading);Serial.print(" weight:\t");Serial.print(weight);Serial.print(" Conductivity:\t");Serial.print(volt);Serial.print(" Material:\t");Serial.print(material);
+  Serial.print("Position:\t");Serial.print(pos);
+  Serial.print(" Reading:\t");Serial.print(reading);
+  Serial.print(" Weight:\t");Serial.print(weight);
+  Serial.print(" Conductivity:\t");Serial.print(volt);
+  Serial.print(" Material:\t");Serial.print(material);
   Serial.println();
   
   
