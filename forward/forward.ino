@@ -6,8 +6,10 @@ int enB = 11;
 int in3 = 10;
 int in4 = 9;
 
-int go = 200;
+int go = 255;
 int turnvoltage = 240;
+
+boolean finished = false;
 
 
 void setup() {
@@ -27,10 +29,14 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly
-
-  goforward(5000);
-  gobackward(5000);
-  turn(5000);
+  if (finished == false) {
+    goforward(27000);
+    finished = true;
+  }
+  analogWrite(enA, 0);
+  analogWrite(enB, 0);
+  //gobackward(5000);
+  //turn(5000);
   
   
 }
