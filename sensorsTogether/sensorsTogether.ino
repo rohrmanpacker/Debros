@@ -14,8 +14,8 @@ HX711 scale;
 int volt;
 String material;
 
-int pos = 135;
-int change = -2;
+int pos = 134;
+int change = 1;
 
 void setup() {
   Serial.begin(9600);
@@ -25,11 +25,10 @@ void setup() {
   myservo2.write(pos);
 
   scale.begin(LOADCELL_DOUT_PIN, LOADCELL_SCK_PIN);
-  scale.set_scale();                      // this value is obtained by calibrating the scale with known weights; see the README for details
+  scale.set_scale();          // this value is obtained by calibrating the scale with known weights; see the README for details
   scale.tare();               // reset the scale to 0
 
 }
-
 
 
 void loop() {
@@ -48,15 +47,25 @@ void loop() {
     }else {
       material = "plastic";
     }
-  }else{ //if debris isn't collected
+  } 
+  if(pos >= 15 || weight < 20){ //if debris isn't collected
     //servo
     myservo1.write(pos);
     myservo2.write(pos);
   
+    
+    if(pos <= 10){
+      change *=-1;
+      delay(1000);
+    }
+    if(pos >= 134){
+      change *=-1;
+      delay(1000);
+    }
     pos+=change;
-    if(pos <= 0){change *=-1;}
-    if(pos >= 135){change *=-1;}
-  
+    
+  }else{ //when debris is collected
+    
   }
   
   //delay
