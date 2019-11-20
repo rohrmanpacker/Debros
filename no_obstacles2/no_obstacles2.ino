@@ -119,9 +119,6 @@ void forward() {
   digitalWrite(in2, LOW);
   digitalWrite(in3, LOW);
   digitalWrite(in4, HIGH);
-  delay(t);
-  analogWrite(enA, 0);
-  analogWrite(enB, 0);
 }
 
 void turncounterclockwise() {
@@ -131,9 +128,6 @@ void turncounterclockwise() {
   digitalWrite(in2, HIGH);
   digitalWrite(in3, LOW);
   digitalWrite(in4, HIGH);
-  delay(t);
-  analogWrite(enA, 0);
-  analogWrite(enB, 0);
 }
 
 void turnclockwise() {
@@ -143,7 +137,4 @@ void turnclockwise() {
   digitalWrite(in2, LOW);
   digitalWrite(in3, HIGH);
   digitalWrite(in4, LOW);
-  delay(t);
-  analogWrite(enA, 0);
-  analogWrite(enB, 0);
 }
