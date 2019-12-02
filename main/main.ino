@@ -40,25 +40,19 @@ void loop() {
   
   //put ur shit here jenny
   
-  // MEASURING STUFF 
-  
-  //load cell
-  long reading = scale.get_units();
-  float weight = (2.19 * .001 * reading);  
-  
-  //conductivity
-  volt = analogRead(1);
-  material = "none";
-  
-  //if debris is collected (measuring stuff)
-  if(weight >20){ 
-    if(volt<512){
-      material = "metal";
-    }else {
-      material = "plastic";
-    }
-  } 
+}
 
+void up(){
+  myservo1.write(10);
+  myservo2.write(10);
+}
+
+void down(){
+  myservo1.write(134);
+  myservo2.write(134);
+}
+
+void pickup(){
   //if debris isn't collected (collecting mechanism)
   if(pos >= 15 || weight < 20){ 
     //servo
@@ -74,23 +68,35 @@ void loop() {
       change *=-1;
       delay(1000);
     }
-    
     pos+=change;
-    
-  }else{ //when debris is collected
-    
   }
+  
+}
+
+void measure(){
+  //load cell
+  long reading = scale.get_units();
+  float weight = (2.19 * .001 * reading);  
+  
+  //conductivity
+  volt = analogRead(1);
+  material = "none";
+  
+  //if debris is collected (measuring stuff)
+  if(weight >20){ 
+    if(volt<512){
+      material = "COPPER";
+    }else {
+      material = "PLASTIC";
+    }
+  } 
+
+  
   
   //delay
   delay(5);
   
-  //print shit
-  Serial.print("Servo Pos:\t");Serial.print(pos);
-  //Serial.print(" Reading:\t");Serial.print(reading);
-  Serial.print(" Weight:\t");Serial.print(weight);
-  //Serial.print(" Conductivity:\t");Serial.print(volt);
-  Serial.print(" Material:\t");Serial.print(material);
-  Serial.println();
-  
-  
+  Enes100.mission(weight);
+  Enes100.mission(material);
+
 }
