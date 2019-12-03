@@ -1,5 +1,5 @@
-const int InfraredSensorPin = 12 ;//Connect the signal pin to the digital pin
-const int InfraredSensorPin2 = 13 ;//Connect the signal pin to the digital pin
+const int InfraredSensorPin = A5 ;//Connect the signal pin to the digital pin
+const int InfraredSensorPin2 = A4 ;//Connect the signal pin to the digital pin
 
 void setup() {
   Serial.begin(9600);

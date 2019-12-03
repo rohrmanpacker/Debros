@@ -3,12 +3,12 @@ const int InfaredSensorPin = 12;
 const int InfaredSensorPin2 = 13;
 
 //Motor set-up
-int enA = 9;
+int enA = 6;
 int in1 = 7;
 int in2 = 8;
-int enB = 10;
-int in3 = 11;
-int in4 = 12;
+int enB = 5;
+int in3 = 9;
+int in4 = 4;
 
 double theta_d;
 float destinationX;
@@ -31,6 +31,8 @@ void setup() {
   Enes100.print(", ");
   Enes100.print(Enes100.destination.y);
   Enes100.println(")");
+  destinationX = Enes100.destination.x;
+  destinationY = Enes100.destination.y;
 
      //Motor setup
   pinMode(enA, OUTPUT);
@@ -69,12 +71,12 @@ void turntoAngle(float theta_desired, float tol) {
   
   if(mod2pi(2*pi+Enes100.location.theta-theta_desired)<mod2pi(2*pi-Enes100.location.theta+theta_desired)){
     while ((Enes100.location.theta <= (theta_desired - tol)) || (Enes100.location.theta >= (theta_desired + tol))) {//turn CCW
-      turnclockwise();
+      turncounterclockwise();
       Enes100.updateLocation();
     }
   }else{
     while ((Enes100.location.theta <= (theta_desired - tol)) || (Enes100.location.theta >= (theta_desired + tol))) { //turn CW
-      turncounterclockwise();
+      turnclockwise();
       Enes100.updateLocation();
     }
   }
@@ -117,8 +119,8 @@ void forward() {
   analogWrite(enB, go);
   digitalWrite(in1, HIGH);
   digitalWrite(in2, LOW);
-  digitalWrite(in3, LOW);
-  digitalWrite(in4, HIGH);
+  digitalWrite(in3, HIGH);
+  digitalWrite(in4, LOW);
 }
 
 void turncounterclockwise() {
@@ -126,15 +128,15 @@ void turncounterclockwise() {
   analogWrite(enB, turnvoltage);
   digitalWrite(in1, LOW);
   digitalWrite(in2, HIGH);
-  digitalWrite(in3, LOW);
-  digitalWrite(in4, HIGH);
-}
+  digitalWrite(in3, HIGH);
+  digitalWrite(in4, LOW);
+}  
 
 void turnclockwise() {
   analogWrite(enA, turnvoltage);
   analogWrite(enB, turnvoltage);
   digitalWrite(in1, HIGH);
   digitalWrite(in2, LOW);
-  digitalWrite(in3, HIGH);
-  digitalWrite(in4, LOW);
+  digitalWrite(in3, LOW);
+  digitalWrite(in4, HIGH);
 }
